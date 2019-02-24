@@ -3,18 +3,8 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Sdr Sbc Test
-# Generated: Fri Feb 22 13:44:33 2019
+# Generated: Sun Feb 24 14:53:51 2019
 ##################################################
-
-if __name__ == '__main__':
-    import ctypes
-    import sys
-    if sys.platform.startswith('linux'):
-        try:
-            x11 = ctypes.cdll.LoadLibrary('libX11.so')
-            x11.XInitThreads()
-        except:
-            print "Warning: failed to XInitThreads()"
 
 from gnuradio import blocks
 from gnuradio import eng_notation
@@ -22,18 +12,14 @@ from gnuradio import gr
 from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
-from grc_gnuradio import wxgui as grc_wxgui
 from optparse import OptionParser
 import time
-import wx
 
 
-class sdr_sbc_test(grc_wxgui.top_block_gui):
+class sdr_sbc_test(gr.top_block):
 
     def __init__(self):
-        grc_wxgui.top_block_gui.__init__(self, title="Sdr Sbc Test")
-        _icon_path = "/usr/share/icons/hicolor/32x32/apps/gnuradio-grc.png"
-        self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
+        gr.top_block.__init__(self, "Sdr Sbc Test")
 
         ##################################################
         # Variables
@@ -92,8 +78,13 @@ class sdr_sbc_test(grc_wxgui.top_block_gui):
 def main(top_block_cls=sdr_sbc_test, options=None):
 
     tb = top_block_cls()
-    tb.Start(True)
-    tb.Wait()
+    tb.start()
+    try:
+        raw_input('Press Enter to quit: ')
+    except EOFError:
+        pass
+    tb.stop()
+    tb.wait()
 
 
 if __name__ == '__main__':
